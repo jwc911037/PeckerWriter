@@ -14,21 +14,21 @@ from math import sqrt
 window = tk.Tk()
 window.title('pecker')
 window.resizable(0,0)
-window.geometry('1000x600')
+window.geometry('1150x630')
 window.configure(background='#344253')
 #icon
 window.iconbitmap(default='UI_img/icon.ico')
 #logo
 img=ImageTk.PhotoImage(Image.open("UI_img/logo.png"))
 logo=tk.Label(window, image=img, bg='#344253')
-logo.grid(column=0,row=0,columnspan=5)
+logo.grid(column=0,row=0,columnspan=5,padx=20,pady=10)
 #question
 img1=ImageTk.PhotoImage(Image.open("UI_img/question.png"))
 question=tk.Button(window, image=img1, bg='#344253')
-question.grid(column=22,row=0)
+question.grid(column=19,row=0,columnspan=2)
 #canvas
 canvas=tk.Canvas(window,width=700,height=470,bg='blue')
-canvas.grid(column=1,row=3,columnspan=15,rowspan=11,padx=10,pady=10)
+canvas.grid(column=1,row=3,columnspan=15,rowspan=20,padx=30,pady=10)
 def open_img():
     fileName = tkFileDialog.askopenfilename(filetypes = (("JPEG", "*.jpg;*.jpeg"),("PNG", "*.png")))
     img2=ImageTk.PhotoImage(Image.open(fileName))
@@ -38,7 +38,7 @@ def open_img():
 #picture
 img3=ImageTk.PhotoImage(Image.open("UI_img/picture.png"))
 picture=tk.Button(window, image=img3, bg='#344253',command=open_img)
-picture.grid(column=0,row=1,columnspan=3)
+picture.grid(column=0,row=1,columnspan=3,padx=20)
 #before_step
 img4=ImageTk.PhotoImage(Image.open("UI_img/before_step.png"))
 before_step=tk.Button(window, image=img4, bg='#344253')
@@ -63,6 +63,7 @@ else:
         port_serial = port[0]
         COM.append(port_serial)
 #下拉選藍芽com
+tk.Label(window,text='藍芽com :',fg='#FFFFFF',bg='#344253',font=('Calibri,微軟正黑',12,'bold')).grid(column=16, row=2,rowspan=2)
 class Application1:
 
     def __init__(self, parent):
@@ -75,9 +76,10 @@ class Application1:
                                 state='readonly',width=10)
         self.box['values'] = (COM)
         #self.box.current(0)
-        self.box.grid(column=16, row=2,columnspan=2)
+        self.box.grid(column=17, row=3,columnspan=2)
 
 #下拉選步進馬達com
+tk.Label(window,text='步進馬達com :',fg='#FFFFFF',bg='#344253',font=('Calibri,微軟正黑',12,'bold')).grid(column=16,row=3,rowspan=2,padx=10,pady=50)
 class Application2:
 
     def __init__(self, parent):
@@ -90,26 +92,25 @@ class Application2:
                                 state='readonly',width=10)
         self.box['values'] = (COM)
         #self.box.current(0)
-        self.box.grid(column=16, row=3,columnspan=2)
+        self.box.grid(column=17, row=3,columnspan=2,rowspan=2,padx=10)
 
 if __name__ == '__main__':
     app1 = Application1(window)    
     app2 = Application2(window)
 #-----------輸入需要連接的藍芽/Serial Port----------#
-
 #connect
 def insert_grbl():
-    var="Grbl 0.9i ['$' for help]"
+    var="Grbl 0.9i ['$' for help"
     t.insert('insert',var)
 
 img7=ImageTk.PhotoImage(Image.open("UI_img/connect.png"))
 setup=tk.Button(window, image=img7, bg='#344253',command=insert_grbl)
-setup.grid(column=18,row=3,columnspan=3,padx=10)
+setup.grid(column=19,row=2,rowspan=2,padx=10,pady=20)
 #grbl
-t=tk.Text(window,height=15,width=24, bg='#477979',fg='white',font=('Calibri',14,'bold'),padx=10,pady=5)
-t.grid(column=17,row=4,columnspan=6,rowspan=9)
+t=tk.Text(window,height=14,width=30, bg='#477979',fg='white',font=('Calibri',14,'bold'),padx=10,pady=5)
+t.grid(column=16,row=4,columnspan=15,rowspan=5,pady=20)
 #send
 img8=ImageTk.PhotoImage(Image.open("UI_img/send.png"))
 setup=tk.Button(window, image=img8, bg='#344253')
-setup.grid(column=16,row=13,columnspan=2,padx=5)
+setup.grid(column=15,row=10,columnspan=3)
 window.mainloop()
