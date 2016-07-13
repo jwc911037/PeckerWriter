@@ -51,21 +51,19 @@ def list_port():
         for port in port_list:
             port_serial = port[0]
             print port_serial
-"""
+
 #開啟port
-def open_port(port_name, port, baudrate, timeout):
-    port_name =serial.Serial()
-    port_name.port = port
-    port_name.baudrate = baudrate
-    port_name.timeout = timeout
+def open_port(port_name, port, baudrate):
+    global port_name 
+    port_name =serial.Serial(port, baudrate, timeout= 0.5)
     try:
         port_name.open()
     except serial.SerialException:
         print 'Counld Not Open Port: '+port_name.port
-"""
+
 #執行提放筆
 def do_pen(tar_port):
-    serv=serial.Serial(tar_port, 9600, timeout= 1)
+    open_port('serv', tar_port, 9600)
     if serv.isOpen():
         serv.flushInput()
         last_status = '0'
@@ -88,6 +86,9 @@ def do_pen(tar_port):
             last_status = pen_status
     else:
         print 'Sorry, '+serv.port+' Is Down!'
+def test(tar_port):
+    ser = serv=serial.Serial(tar_port, 9600, timeout= 1)
+    return ser
 if __name__ == '__main__':
     list_port()
     port = raw_input('Input: ')
