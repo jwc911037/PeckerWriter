@@ -6,6 +6,11 @@ from PIL import ImageTk, Image
 import sys,os
 import ttk
 import tkFileDialog
+import serial
+import serial.tools.list_ports
+import time
+from math import sqrt
+
 window = tk.Tk()
 window.title('pecker')
 window.resizable(0,0)
@@ -47,8 +52,18 @@ img6=ImageTk.PhotoImage(Image.open("UI_img/setup_logo.png"))
 setup=tk.Button(window, image=img6, bg='#344253')
 setup.grid(column=14,row=1,columnspan=2,rowspan=2)
 
-#下拉選com
-class Application:
+#-----------輸入需要連接的藍芽/Serial Port----------#
+#顯示所有目前可用的port
+COM = []
+port_list = list(serial.tools.list_ports.comports())
+if len(port_list) <= 0:
+    COM.append('No Port Available!')
+else:
+    for port in port_list:
+        port_serial = port[0]
+        COM.append(port_serial)
+#下拉選藍芽com
+class Application1:
 
     def __init__(self, parent):
         self.parent = parent
@@ -58,16 +73,33 @@ class Application:
         self.box_value = StringVar()
         self.box = ttk.Combobox(self.parent, textvariable=self.box_value, 
                                 state='readonly',width=10)
-        self.box['values'] = ('com1', 'com2', 'com3')
-        self.box.current(0)
+        self.box['values'] = (COM)
+        #self.box.current(0)
+        self.box.grid(column=16, row=2,columnspan=2)
+
+#下拉選步進馬達com
+class Application2:
+
+    def __init__(self, parent):
+        self.parent = parent
+        self.combo()
+
+    def combo(self):
+        self.box_value = StringVar()
+        self.box = ttk.Combobox(self.parent, textvariable=self.box_value, 
+                                state='readonly',width=10)
+        self.box['values'] = (COM)
+        #self.box.current(0)
         self.box.grid(column=16, row=3,columnspan=2)
 
 if __name__ == '__main__':
-    app = Application(window)    
+    app1 = Application1(window)    
+    app2 = Application2(window)
+#-----------輸入需要連接的藍芽/Serial Port----------#
 
 #connect
 def insert_grbl():
-    var="Grbl 0.9i ['$' for help"
+    var="Grbl 0.9i ['$' for help]"
     t.insert('insert',var)
 
 img7=ImageTk.PhotoImage(Image.open("UI_img/connect.png"))
