@@ -55,7 +55,7 @@ else:
                 print step.port+' Is Closed. Have A Nice Day!'
                 sys.exit(0)
 
-            LogCurX = -pos[0] + INIT_POS[0]
+            LogCurX = pos[0] + INIT_POS[0]
             LogCurY = pos[1] + INIT_POS[1]
             PhysCurX, PhysCurY = MODIFY_POS(LogCurX, LogCurY, LENGTH_OF_BOARD)
             PhysCurX = PhysCurX - PhysStarX

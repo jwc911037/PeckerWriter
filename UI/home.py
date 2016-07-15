@@ -28,6 +28,9 @@ question=tk.Button(window, image=img1, bg='#344253')
 question.grid(column=19,row=0,columnspan=2)
 #canvas
 canvas=tk.Canvas(window,width=700,height=470,bg='blue')
+# fileName = tkFileDialog.askopenfilename(filetypes = (("JPEG", "*.jpg;*.jpeg"),("PNG", "*.png")))
+# img2=ImageTk.PhotoImage(Image.open(fileName))
+# canvas.create_image(350,225,image=img2)
 canvas.grid(column=1,row=3,columnspan=15,rowspan=20,padx=30,pady=10)
 def open_img():
     fileName = tkFileDialog.askopenfilename(filetypes = (("JPEG", "*.jpg;*.jpeg"),("PNG", "*.png")))
@@ -100,7 +103,7 @@ if __name__ == '__main__':
 #-----------輸入需要連接的藍芽/Serial Port----------#
 #connect
 def insert_grbl():
-    var="Grbl 0.9i ['$' for help"
+    var="Grbl 0.9i ['$' for help]\n"
     t.insert('insert',var)
 
 img7=ImageTk.PhotoImage(Image.open("UI_img/connect.png"))
