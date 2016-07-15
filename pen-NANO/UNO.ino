@@ -4,7 +4,7 @@ Servo myservo;
 
 
 // 定義連接藍牙模組的序列埠
-SoftwareSerial BT(A3, A4); // 接收腳, 傳送腳
+SoftwareSerial BT(8, 9); // 接收腳, 傳送腳
 char val;  // 儲存接收資料的變數
 
 void setup() {
@@ -35,17 +35,25 @@ void loop() {
     {
       switch (val)
       {
-        case 49: // Press "1"
-          for (int i = 1400; i <= 1601; i += 3) { //數字大的是下筆
+        case 49: // Press "1"提筆
+          for (int i = 1200; i <= 1602; i += 3) { //數字大的是下筆
             myservo.write(i); // 直接以脈衝寬度控制
-            delay(3);//速度
+            delay(1);//速度
+            int j;
+            for (j = 1602; j <= 1656; j += 9) { //數字大的是下筆
+            myservo.write(j); // 直接以脈衝寬度控制
+            delay(j-1592/9);//速度
           }
           Serial.println("down");
           break;
-        case 50:  //Press "2"
-          for (int i = 1601; i >= 1400; i -= 3) {
+        case 50:  //Press "2"下筆
+          for (int i = 1656; i >= 1254; i -= 3) {
             myservo.write(i);
             delay(3);
+            int j;
+            for (j = 1254; j <= 1200; j -= 9) { //數字大的是下筆
+            myservo.write(j); // 直接以脈衝寬度控制
+            delay(j-1191/9);//速度
           }
           Serial.println("up");
           break;
