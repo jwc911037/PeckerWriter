@@ -54,7 +54,7 @@ def list_port():
 
 #開啟port
 def open_port(port_name, port, baudrate):
-    global port_name 
+    # global port_name 
     port_name =serial.Serial(port, baudrate, timeout= 0.5)
     try:
         port_name.open()
@@ -92,4 +92,6 @@ def test(tar_port):
 if __name__ == '__main__':
     list_port()
     port = raw_input('Input: ')
-    do_pen(port)
+    # do_pen(port)
+    a = serial.Serial()
+    open_port(a,port,9600)
