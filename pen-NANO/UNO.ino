@@ -39,14 +39,19 @@ void loop() {
           for (int i = 1200; i <= 1602; i += 3) { //數字大的是下筆
             myservo.write(i); // 直接以脈衝寬度控制
             delay(1);//速度
-     
+          for (int i = 1602; i <= 1656; i += 3) { //數字大的是下筆
+            myservo.write(i); // 直接以脈衝寬度控制
+            delay(5);//速度
           }
           Serial.println("down");
           break;
         case 50:  //Press "2"下筆
           for (int i = 1656; i >= 1254; i -= 3) {
             myservo.write(i);
-            delay(3);
+            delay(1);
+            for (int i = 1254; i >= 1200; i -= 3) {
+            myservo.write(i);
+            delay(5);
            
           }
           Serial.println("up");
