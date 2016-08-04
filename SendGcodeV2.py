@@ -40,8 +40,9 @@ if __name__ == '__main__':
        step.flushInput()
 
        ready = raw_input('Enter to Start!')
+       print time.strftime("%H:%M:%S")
 
-       gcode = open('gcode/rose.txt','r');
+       gcode = open('gcode/rose3.txt','r');
        step.write('G92 X0 Y0 Z0\n')
        step.write('G1 F50\n')
        for line in gcode:
@@ -54,13 +55,14 @@ if __name__ == '__main__':
                time.sleep(1)
 
            step.write(l + ' F50\n')    
-           grbl_out = step.readline()
-           print l+' : ' + grbl_out.strip()
+           # grbl_out = step.readline()
+           # print l+' : ' + grbl_out.strip()
            time.sleep(0.1)
        #結束後回到原點及關閉gcode檔案、port
        serv.write('2\n')
        step.write('G1 X0 Y0 Z0 F50\n')
        print 'Finished!'
+       print time.strftime("%H:%M:%S")
        gcode.close()
        step.close()
        serv.close() 
