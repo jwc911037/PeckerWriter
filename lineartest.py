@@ -39,14 +39,16 @@ init_pos = PosCaculator(init,tmp,board_len)
 print init_pos
 
 while True:
-    pos = np.array(map(float,raw_input('Input Position:').split()))
+    try:
+        pos = np.array(map(float,raw_input('Input Position:').split()))
 
-    SliceMove(tmp,pos,Slice)    
-    pos_move = PosCaculator(pos,init,board_len)
-    pos_move -=init_pos
-    tmp = pos
+        SliceMove(tmp,pos,Slice)    
+        pos_move = PosCaculator(pos,init,board_len)
+        pos_move -=init_pos
+        tmp = pos
 
-    print 'Go to: ('+str(pos[0])+', '+str(pos[1])+')'
-    print 'G0 X'+str(pos_move[0])+' Y'+str(pos_move[1])+'\n'
-
-    
+        print 'Go to: ('+str(pos[0])+', '+str(pos[1])+')'
+        print 'G0 X'+str(pos_move[0])+' Y'+str(pos_move[1])+'\n'
+    except Exception:
+        print 'Test End!'
+        raise

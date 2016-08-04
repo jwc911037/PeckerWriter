@@ -27,7 +27,7 @@ if __name__ == '__main__':
     board_len = float(raw_input('Length of Board: '))
     init = np.array(map(float,raw_input('Input Init Pos: ').split()))
 
-    gcode = open('gcode/rose1.txt','wb')
+    gcode = open('gcode/rose.txt','wb')
     im=Image.open('img/rose.jpg')
     # gcode.write('G92 X0 Y0 Z0\n')
     # gcode.write('G1 F50\n')
@@ -41,10 +41,10 @@ if __name__ == '__main__':
             pos_move = PosCaculator(pos,init,board_len)
             pos_move -=init_pos
 
-            if im.getpixel((x,y)) == (0,0,0):
+            if im.getpixel((x,y))[0] <200:
                 gcode.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' Z1\n')
-            # else:
-            #     gcode.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' Z2\n')
+            else:
+                gcode.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' Z2\n')
 
     # gcode.write('G28\n')
     gcode.close()

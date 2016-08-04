@@ -30,7 +30,7 @@ if __name__ == '__main__':
        OpenPort(step,step_port,115200)
        OpenPort(serv,serv_port,9600)
 
-       tmp_pen_value = '2'
+       tmp_pen_value = '1'
        serv.write(tmp_pen_value+'\n')
 
        step.write("\r\n\r\n")
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
        ready = raw_input('Enter to Start!')
 
-       gcode = open('gcode/r.txt','r');
+       gcode = open('gcode/rose.txt','r');
        step.write('G92 X0 Y0 Z0\n')
        step.write('G1 F50\n')
        for line in gcode:
@@ -53,12 +53,14 @@ if __name__ == '__main__':
                serv.write(pen_value+'\n')
                time.sleep(1)
 
-           step.write(l + '\n')    
+           step.write(l + ' F50\n')    
            grbl_out = step.readline()
            print l+' : ' + grbl_out.strip()
+           time.sleep(0.1)
        #結束後回到原點及關閉gcode檔案、port
-       serv.write('1\n')
-       step.write('G1 X0 Y0 Z0\n')
+       serv.write('2\n')
+       step.write('G1 X0 Y0 Z0 F50\n')
+       print 'Finished!'
        gcode.close()
        step.close()
        serv.close() 
