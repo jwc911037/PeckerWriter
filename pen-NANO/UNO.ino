@@ -14,7 +14,7 @@ void setup() {
   // 設定HC-05藍牙模組，AT命令模式的連線速率。
   BT.begin(9600);
 
-  myservo.attach(A5, 400, 2400); // 修正伺服馬達脈衝寬度範圍
+  myservo.attach(A5, 500, 2400); // 修正伺服馬達脈衝寬度範圍
   //myservo.write(90); // 一開始先置中90度
   //delay(3000);
 }
