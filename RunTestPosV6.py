@@ -22,17 +22,17 @@ def OpenPort(port_name, port, baudrate):
     except serial.SerialException:
         print 'Counld Not Open Port: '+port_name.port
 
-def DoPen(serv,gcode):
-    pen = gcode[-1] #抓取Gcode指令內自定義的提放筆的值(Z值)
-    serv.write(pen+'\n')
-    time.sleep(1)
+# def DoPen(serv,gcode):
+#     pen = gcode[-1] #抓取Gcode指令內自定義的提放筆的值(Z值)
+#     serv.write(pen+'\n')
+#     time.sleep(1)
 
-def DoMove(step,gcode):
+# def DoMove(step,gcode):
 
-    gcode = line.strip() # Strip all EOL characters for consistency
-    step.write(gcode+ '\n') # Send g-code block to grbl   
-    grbl_out = step.readline() # Wait for grbl response with carriage return
-    print 'Sending: '+gcode+' : ' + grbl_out.strip()
+#     gcode = line.strip() # Strip all EOL characters for consistency
+#     step.write(gcode+ '\n') # Send g-code block to grbl   
+#     grbl_out = step.readline() # Wait for grbl response with carriage return
+#     print 'Sending: '+gcode+' : ' + grbl_out.strip()
         
 def PosCaculator(pos,init,l):
     pos[1] = -pos[1] #由下往上畫的座標調整
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     # board_len = float(raw_input('Length of Board: '))
     # init = np.array(map(float,raw_input('Input Init Pos: ').split()))
     board_len = 1420.
-    init = [192.,670.]
+    init = [185.,670.]
 
     tmp = np.array([0.,0.])
     init_pos = PosCaculator(init,tmp,board_len)

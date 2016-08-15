@@ -17,35 +17,36 @@ def OpenPort(port_name, port, baudrate):
     try:
         port_name.port = port
         port_name.baudrate = baudrate
-        port_name.timeout = 0.5
+        port_name.timeout = None
+        port_name.write_timeout = None
         port_name.open()
     except serial.SerialException:
         print 'Counld Not Open Port: '+port_name.port
 
-def DoPen(serv,gcode):
-    pen = gcode[-1] #抓取Gcode指令內自定義的提放筆的值(Z值)
-    serv.write(pen+'\n')
-    time.sleep(1)
+# def DoPen(serv,gcode):
+#     pen = gcode[-1] #抓取Gcode指令內自定義的提放筆的值(Z值)
+#     serv.write(pen+'\n')
+#     time.sleep(1)
 
-def DoMove(step,gcode):
+# def DoMove(step,gcode):
 
-    gcode = line.strip() # Strip all EOL characters for consistency
-    step.write(gcode+ '\n') # Send g-code block to grbl   
-    grbl_out = step.readline() # Wait for grbl response with carriage return
-    print 'Sending: '+gcode+' : ' + grbl_out.strip()
+#     gcode = line.strip() # Strip all EOL characters for consistency
+#     step.write(gcode+ '\n') # Send g-code block to grbl   
+#     grbl_out = step.readline() # Wait for grbl response with carriage return
+#     print 'Sending: '+gcode+' : ' + grbl_out.strip()
         
 def PosCaculator(pos,init,l):
-    pos[1] = -pos[1] #由下往上畫的座標調整
+    # pos[1] = -pos[1] #由下往上畫的座標調整
     #----------計算座標轉換----------#
     actual_pos = pos+init #原座標須加上一開始筆架所在位置
     modified_pos = np.array([0.,0.])
     modified_pos[0] = hypot(actual_pos[0], actual_pos[1]) #sqrt(X**2 + Y**2)
     modified_pos[1] = hypot((l-actual_pos[0]), actual_pos[1]) #sqrt((L-X)**2 + Y**2)
     #----------計算座標轉換----------#
-    pos[1] = -pos[1] #計算完畢後恢復原值
-    return modified_pos
+    # pos[1] = -pos[1] #計算完畢後恢復原值
+    return 5.*modified_pos
 
-Slice = 100. #每筆畫精細度設定為10mm
+Slice = 20. #每筆畫精細度設定為10mm
 def SliceMove(last,now,Slice):
     V = now-last #求出now,last兩點的向量
     dis_v = hypot(V[0],V[1])
@@ -59,11 +60,12 @@ def SliceMove(last,now,Slice):
 
             dis_v = dis_v - Slice
 
-            step.write('G0 X'+str(last_move[0])+' Y'+str(last_move[1])+'\n')
-            # grbl_out = step.readline() # Wait for grbl response with carriage return
-            # print 'Go to: ('+str(last[0])+', '+str(last[1])+') : ' + grbl_out.strip()
+            step.write('G1 X'+str(last_move[0])+' Y'+str(last_move[1])+' F15\n')
+            time.sleep(0.3)
+            grbl_out = step.readline() # Wait for grbl response with carriage return
+            print 'Go to: ('+str(last[0])+', '+str(last[1])+') : ' + grbl_out.strip()
             # print 'Go to: ('+str(last[0])+', '+str(last[1])+')'
-            # print 'G0 X'+str(last_move[0])+' Y'+str(last_move[1])+'\n'
+            print 'G1 X'+str(last_move[0])+' Y'+str(last_move[1])+' F15\n'
    
 if __name__ == '__main__':
     step = serial.Serial()
@@ -84,7 +86,7 @@ if __name__ == '__main__':
     # board_len = float(raw_input('Length of Board: '))
     # init = np.array(map(float,raw_input('Input Init Pos: ').split()))
     board_len = 1420.
-    init = [192.,670.]
+    init = [710.,270.]
 
     tmp = np.array([0.,0.])
     init_pos = PosCaculator(init,tmp,board_len)
@@ -99,10 +101,10 @@ if __name__ == '__main__':
 
             tmp = pos
 
-            step.write('G0 X'+str(pos_move[0])+' Y'+str(pos_move[1])+'\n')
+            step.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' F15\n')
             grbl_out = step.readline() # Wait for grbl response with carriage return
             print 'Go to: ('+str(pos[0])+', '+str(pos[1])+') : ' + grbl_out.strip()
-            # print 'G0 X'+str(pos_move[0])+' Y'+str(pos_move[1])+'\n'
+            print 'G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' F15\n'
         except Exception:
             step.close()
             break 

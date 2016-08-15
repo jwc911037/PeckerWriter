@@ -42,7 +42,7 @@ if __name__ == '__main__':
        ready = raw_input('Enter to Start!')
        print time.strftime("%H:%M:%S")
 
-       gcode = open('gcode/rose3.txt','r');
+       gcode = open('gcode/abcd.txt','r');
        step.write('G92 X0 Y0 Z0\n')
        step.write('G1 F50\n')
        for line in gcode:
