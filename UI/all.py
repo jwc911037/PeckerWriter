@@ -42,7 +42,7 @@ class CreateToolTip(object):
 window = Tk()
 window.title('home')
 window.resizable(0,0)
-window.geometry('1150x650+200+100')
+window.geometry('1150x630+200+100')
 window.configure(background='#344253')
 #icon
 window.iconbitmap(default='UI_img/icon.ico')
@@ -50,39 +50,30 @@ window.iconbitmap(default='UI_img/icon.ico')
 img=ImageTk.PhotoImage(Image.open("UI_img/logo.png"))
 logo=Label(window, image=img, bg='#344253')
 logo.grid(column=0,row=0,columnspan=5,padx=20,pady=10)
-#question
-#img1=ImageTk.PhotoImage(Image.open("UI_img/question.png"))
-#question=Button(window, image=img1, bg='#344253')
-#question.grid(column=19,row=0,columnspan=2)
-
 #frame包canvas
 frame=Frame(window,width=700,height=470)
 frame.grid(column=1,row=3,columnspan=15,rowspan=20,padx=30,pady=10)
-#canvas=Canvas(window,width=700,height=470,bg='white')
-canvas=Canvas(frame,width=700,height=470,bg='white',cursor='heart',scrollregion=(0,0,1000,1000))
-canvas.grid(column=1,row=3,columnspan=15,rowspan=20,padx=30,pady=10)
-hbar=ttk.Scrollbar(frame,orient=HORIZONTAL)
-hbar.pack(side=BOTTOM,fill=X)
-hbar.config(command=canvas.xview)
-vbar=ttk.Scrollbar(frame,orient=VERTICAL)
-vbar.pack(side=RIGHT,fill=Y)
-vbar.config(command=canvas.yview)
-canvas.config(width=700,height=470)
-canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
+canvas=Canvas(frame,width=700,height=470,bg='white',cursor='heart')
 canvas.pack(side=LEFT,expand=True,fill=BOTH)
 canvas_ttp = CreateToolTip(frame, "編輯圖片 : 可任意擺放圖片位置、調整圖片大小與旋轉圖片")
-
+linex=canvas.create_line(0,20,700,20, dash=(4, 2),fill='#7B7B7B')
+liney=canvas.create_line(20,0,20,470, dash=(4, 2),fill='#7B7B7B')
+circle=canvas.create_oval(10,10,30,30,outline='black',fill='#A9D18F',width=2)
+liney2=canvas.create_line(680,0,680,470, dash=(4, 2),fill='#7B7B7B')
+circle2=canvas.create_oval(670,10,690,30,outline='black',fill='#A9D18F',width=2)
 def open_img():
     global img2
     global photo
-    fileName = tkFileDialog.askopenfilename(filetypes = (("JPEG", "*.jpg;*.jpeg"),("PNG", "*.png"),("GIF", "*.gif")))
+    fileName = tkFileDialog.askopenfilename(filetypes = (("JPEG", "*.jpg;*.jpeg"),("PNG", "*.png")))
     original=Image.open(fileName)
-    width=500
-    r=float(width)/original.size[0]
+    r=float(660)/float(700)
+    width=int(original.size[0]*r)
     height=int(original.size[1]*r)
     resized = original.resize((width,height),Image.BILINEAR)
+    #resizedandrotate = resized.transpose( Image.ROTATE_90 )
+    #resizedandrotate=resized.thumbnail(200)
     img2 = ImageTk.PhotoImage(resized)
-    photo=canvas.create_image(20,20,anchor='nw',image=img2)
+    photo=canvas.create_image(350,235,anchor='center',image=img2)
     canvas.bind("<B1-Motion>", move_image)
 def move_image(event):
     global photo
@@ -100,16 +91,15 @@ img3=ImageTk.PhotoImage(Image.open("UI_img/picture.png"))
 picture=Button(window, image=img3, bg='#344253',command=open_img)
 picture.grid(column=0,row=1,columnspan=3,padx=20)
 button1_ttp = CreateToolTip(picture, "請選擇圖片")
-#before_step
-img4=ImageTk.PhotoImage(Image.open("UI_img/before_step.png"))
-before_step=Button(window, image=img4, bg='#344253')
-before_step.grid(column=12,row=1,columnspan=2,rowspan=2)
-button2_ttp = CreateToolTip(before_step, "上一步")
-#next_step
-img5=ImageTk.PhotoImage(Image.open("UI_img/next_step.png"))
-next_step=Button(window, image=img5, bg='#344253')
-next_step.grid(column=13,row=1,columnspan=2,rowspan=2)
-button3_ttp = CreateToolTip(next_step, "下一步")
+#刪除圖片
+def delete_img():
+    global photo
+    canvas.delete(photo)
+
+img4=ImageTk.PhotoImage(Image.open("UI_img/trash.png"))
+trash=Button(window, image=img4, bg='#344253',command=delete_img)
+trash.grid(column=13,row=1,columnspan=2,rowspan=2)
+button3_ttp = CreateToolTip(trash, "刪除圖片")
 
 #設定畫面----------------------------------------------------------------------------------------------------#
 def setup_window():
@@ -119,7 +109,23 @@ def setup_window():
     window_setup.resizable(0,0)
     window_setup.configure(background='#344253')
 
+    def getvalue():
+        varx = 350 - (int(ew.get())/2)
+        vary = 470 - int(eh.get())
+        varx2 = 350 + (int(ew.get())/2)
+        #canvas.delete(linex)
+        #canvas.delete(liney)
+        #canvas.delete(liney2)
+        #canvas.delete(circle)
+        #canvas.delete(circle2)
+        canvas.delete('all')
+        canvas.create_line(0,vary,700,vary, dash=(4, 2),fill='#7B7B7B')
+        canvas.create_line(varx,0,varx,470, dash=(4, 2),fill='#7B7B7B')
+        canvas.create_oval(varx-10,vary-10,varx+10,vary+10,outline='black',fill='#A9D18F',width=2)
+        canvas.create_line(varx2,0,varx2,470, dash=(4, 2),fill='#7B7B7B')
+        canvas.create_oval(varx2-10,vary-10,varx2+10,vary+10,outline='black',fill='#A9D18F',width=2)
     def colse_setup():
+        getvalue()
         window_setup.destroy()
     
     img11=ImageTk.PhotoImage(Image.open("UI_img/setup.png"))
@@ -132,14 +138,17 @@ def setup_window():
     lab1=Label(window_setup,text='width',fg='#FFFFFF',bg='#344253',font=('Calibri',15,'bold'))
     lab1.grid(row=1,column=3)
     lab1_ttp = CreateToolTip(lab1, "請輸入板子寬度")
-    e=Entry(window_setup,width=10).grid(row=1,column=4,padx=20)
+    ew=Entry(window_setup,width=10)
+    ew.grid(row=1,column=4,padx=20)
+    
     #mm
     Label(window_setup,text='mm',fg='#FFFFFF',bg='#344253',font=('Calibri',15,'bold')).grid(row=1,column=5)
     #height
     lab2=Label(window_setup,text='height',fg='#FFFFFF',bg='#344253',font=('Calibri',15,'bold'))
     lab2.grid(row=2,column=3)
     lab2_ttp = CreateToolTip(lab2, "請輸入板子長度")
-    e=Entry(window_setup,width=10).grid(row=2,column=4,padx=20)
+    eh=Entry(window_setup,width=10)
+    eh.grid(row=2,column=4,padx=20)
     #mm
     Label(window_setup,text='mm',fg='#FFFFFF',bg='#344253',font=('Calibri',15,'bold')).grid(row=2,column=5)
     #常用板子大小
@@ -154,11 +163,6 @@ def setup_window():
     ok.image=img13
     ok.grid(row=3,column=4,columnspan=2,pady=10)
     button2_ttp = CreateToolTip(ok, "確認")
-    #?
-    #img14=ImageTk.PhotoImage(Image.open("UI_img/question.png"))
-    #question=Button(window_setup, image=img14, bg='#344253')
-    #question.image=img14
-    #question.grid(row=3,column=6,pady=10)
     #illustration
     Label(window_setup,text='illustration',fg='#FFFFFF',bg='#344253',font=('Calibri',15,'bold'),width=10,height=1).grid(row=4,column=0,columnspan=2,pady=10,padx=40)
     img15=ImageTk.PhotoImage(Image.open("UI_img/illus.png"))
@@ -269,11 +273,6 @@ def send_window():
         logo=Label(output, image=img, bg='#344253')
         logo.image=img
         logo.grid(column=0,row=0,columnspan=5,padx=20,pady=10)
-        #question
-        #img1=ImageTk.PhotoImage(Image.open("UI_img/question.png"))
-        #question=Button(output, image=img1, bg='#344253')
-        #question.image=img1
-        #question.grid(column=19,row=0,columnspan=2)
         #canvas
         canvas=Canvas(output,width=700,height=470,bg='white')
         canvas.grid(column=1,row=3,columnspan=15,rowspan=20,padx=30,pady=10)
@@ -287,16 +286,11 @@ def send_window():
         picture=Label(output, image=img3, bg='#344253')
         picture.image=img3
         picture.grid(column=0,row=1,columnspan=3,padx=20)
-        #before_step
-        img4=ImageTk.PhotoImage(Image.open("UI_img/before_step2.png"))
-        before_step=Label(output, image=img4, bg='#344253')
-        before_step.image=img4
-        before_step.grid(column=12,row=1,columnspan=2,rowspan=2)
-        #next_step
-        img5=ImageTk.PhotoImage(Image.open("UI_img/next_step2.png"))
-        next_step=Label(output, image=img5, bg='#344253')
-        next_step.image=img5
-        next_step.grid(column=13,row=1,columnspan=2,rowspan=2)
+        #刪除圖片
+        img4=ImageTk.PhotoImage(Image.open("UI_img/trash2.png"))
+        trash=Label(output, image=img4, bg='#344253')
+        trash.image=img4
+        trash.grid(column=13,row=1,columnspan=2,rowspan=2)
         #setup
         img6=ImageTk.PhotoImage(Image.open("UI_img/setup_logo2.png"))
         setup=Label(output, image=img6, bg='#344253')
@@ -405,9 +399,6 @@ def send_window():
                 window.deiconify()
                 window_stop.destroy()
                 output.destroy()
-                #im = Image.open("UI_img/white_bg.png")
-                #photo2 = ImageTk.PhotoImage(im)
-                #item=canvas.create_image(20,20,anchor=NW,image=photo2)
 
             Label(window_stop,text='請問您確定要終止pecker繪圖，',fg='#FFFFFF',bg='#344253',font=('微軟正黑體',14,'bold')).grid(row=0,column=0,columnspan=6,padx=20,pady=20)
             Label(window_stop,text='並回home重新操作?',fg='#FFFFFF',bg='#344253',font=('微軟正黑體',14,'bold')).grid(row=1,column=0,columnspan=6,padx=20,pady=10)
