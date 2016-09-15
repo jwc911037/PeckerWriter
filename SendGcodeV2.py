@@ -39,10 +39,11 @@ if __name__ == '__main__':
        #清掉grbl初始化指令
        step.flushInput()
 
-       ready = raw_input('Enter to Start!')
+       # ready = raw_input('Enter to Start!')
        print time.strftime("%H:%M:%S")
 
-       gcode = open('gcode/abcd.txt','r');
+       gcode = open('gcode/peka.txt','r');
+       # print 'hi'
        step.write('G92 X0 Y0 Z0\n')
        step.write('G1 F50\n')
        for line in gcode:

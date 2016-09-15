@@ -42,8 +42,8 @@ if __name__ == '__main__':
             pos_move -=init_pos
             if im.getpixel((x,y))[0] < 200:
                 gcode.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' Z1 F15\n')
-            # else:
-            #     gcode.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' Z2 F15\n')
+            else:
+                gcode.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' Z2 F15\n')
 
     gcode.close()
     print 'Covertd to Gcode Susses!'

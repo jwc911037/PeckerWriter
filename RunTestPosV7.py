@@ -23,18 +23,6 @@ def OpenPort(port_name, port, baudrate):
     except serial.SerialException:
         print 'Counld Not Open Port: '+port_name.port
 
-# def DoPen(serv,gcode):
-#     pen = gcode[-1] #抓取Gcode指令內自定義的提放筆的值(Z值)
-#     serv.write(pen+'\n')
-#     time.sleep(1)
-
-# def DoMove(step,gcode):
-
-#     gcode = line.strip() # Strip all EOL characters for consistency
-#     step.write(gcode+ '\n') # Send g-code block to grbl   
-#     grbl_out = step.readline() # Wait for grbl response with carriage return
-#     print 'Sending: '+gcode+' : ' + grbl_out.strip()
-        
 def PosCaculator(pos,init,l):
     # pos[1] = -pos[1] #由下往上畫的座標調整
     #----------計算座標轉換----------#
@@ -46,7 +34,7 @@ def PosCaculator(pos,init,l):
     # pos[1] = -pos[1] #計算完畢後恢復原值
     return 5.*modified_pos
 
-Slice = 20. #每筆畫精細度設定為10mm
+Slice = 10. #每筆畫精細度設定為10mm
 def SliceMove(last,now,Slice):
     V = now-last #求出now,last兩點的向量
     dis_v = hypot(V[0],V[1])
@@ -85,11 +73,11 @@ if __name__ == '__main__':
 
     # board_len = float(raw_input('Length of Board: '))
     # init = np.array(map(float,raw_input('Input Init Pos: ').split()))
-    board_len = 1420.
-    init = [710.,270.]
+    board_len = 1320.
+    init = [690.,300.]
 
     tmp = np.array([0.,0.])
-    init_pos = PosCaculator(init,tmp,board_len)
+    init_pos = PosCaculator(init,tmp,board_len) #初始點的XY線長度
        
     while True:
         try:
@@ -97,10 +85,10 @@ if __name__ == '__main__':
 
             SliceMove(tmp,pos,Slice)    
             pos_move = PosCaculator(pos,init,board_len)
-            pos_move -=init_pos
+            pos_move -=init_pos #扣除初始點長度即為馬達需要的移動距離
 
             tmp = pos
-
+            # step.write('G1 X'+str(pos[0])+'Y '+str(pos[1])+'F15\n')
             step.write('G1 X'+str(pos_move[0])+' Y'+str(pos_move[1])+' F15\n')
             grbl_out = step.readline() # Wait for grbl response with carriage return
             print 'Go to: ('+str(pos[0])+', '+str(pos[1])+') : ' + grbl_out.strip()
