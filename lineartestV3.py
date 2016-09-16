@@ -1,10 +1,10 @@
 #!/user/bin env python 
 #-*- coding:utf8 -*-
 import numpy as np
-from math import *
+from math import sqrt,hypot
 
 def PosCaculator(pos,init,l):
-    mpos = pos+init #原座標須加上一開始筆架所在位置
+    mpos = pos + init #原座標須加上一開始筆架所在位置
     roll = np.array([0.,0.])
     roll[0] = hypot(mpos[0], mpos[1]) #sqrt(X**2 + Y**2)
     roll[1] = hypot((l-mpos[0]), mpos[1]) #sqrt((L-X)**2 + Y**2)
@@ -42,6 +42,7 @@ if __name__ == '__main__':
     while True:
         try:
             pos = np.array(map(float,raw_input('Input Position:').split()))
+            if len(pos)<1: break
             SliceMove(tmp,pos,board_len,init,init_pos,Slice)    
             tmp = pos
         except Exception:
