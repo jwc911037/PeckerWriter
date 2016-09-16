@@ -40,11 +40,7 @@ if __name__ == '__main__':
     init_pos = PosCaculator(init,tmp,board_len)
     # print init_pos
     while True:
-        try:
-            pos = np.array(map(float,raw_input('Input Position:').split()))
-            if len(pos)<1: break
-            SliceMove(tmp,pos,board_len,init,init_pos,Slice)    
-            tmp = pos
-        except Exception:
-            print 'Test End!'
-            raise
+        pos = np.array(map(float,raw_input('Input Position:').split()))
+        if len(pos)<1: break #不輸入值直接Enter即可結束程式
+        SliceMove(tmp,pos,board_len,init,init_pos,Slice)    
+        tmp = pos
