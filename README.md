@@ -32,7 +32,7 @@ def SliceMove(a,b,l,init,init_pos,Slice):<br>
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dis_v = dis_v - Slice<br>
         &nbsp;&nbsp;&nbsp;&nbsp;if dis_v > 0: #假設Slice無法完整走完剩下的距離就直接走完<br>
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DoRun(b,init,l,init_pos)<br><p>
-4.執行結果:(Slice = 10.0)<br>
+4.執行結果:(Slice = 10.0)<p>
 Length of Board: 1320<br>
 Input Init Pos: 690 300<br>
 Input Position:20 0<br>
