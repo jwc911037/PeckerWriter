@@ -18,4 +18,4 @@ if __name__ == '__main__':
         if len(pos)<1: break #不輸入值直接Enter即可結束程式
         Pecker.SliceMove(tmp,pos,board_len,init,init_pos,None,Slice,False)    
         tmp = pos
-    raw_input('Finished! Press <Enter> to terminate the programe.')
+    raw_input('Finished! Press <Enter> to terminate the program.')

@@ -82,13 +82,21 @@ def SliceMove(a,b,l,init,init_pos,step,Slice,write):
             dis_v = dis_v - Slice
         if dis_v > 0: #假設Slice無法完整走完剩下的距離就直接走完
             DoRun(b,init,l,init_pos,step,write)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9c32e4f28a62c30120dc0ffbab5e0e862b8d5f24
 tmp = np.array([0.,0.])
 def connect():
     global tmp
     Slice = 100. #每筆畫精細度設定為10mm
     board_len = float(elen.get())
     init = np.array(map(float,eint.get().split()))
+<<<<<<< HEAD
     # tmp = np.array([0.,0.])
+=======
+    
+>>>>>>> 9c32e4f28a62c30120dc0ffbab5e0e862b8d5f24
     init_pos = PosCaculator(init,tmp,board_len)
     # print init_pos
     # t.insert('insert',init_pos)
