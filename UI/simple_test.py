@@ -53,7 +53,7 @@ def DoRun(pos,init,l,init_pos,step,write):
         step.write(gcode_cmd)
     # print 'Go to: ('+str(pos[0])+', '+str(pos[1])+')'
     # print 'SND: '+gcode_cmd
-    var1="Go to: ("+str(pos[0])+", "+str(pos[1])+")"+"  "
+    var1="Go to: ("+str(round(pos[0],2))+", "+str(round(pos[1],2))+")"+"  "
     var2="SND: "+gcode_cmd
     t.insert('insert',var1)
     t.insert('insert',var2)
@@ -82,21 +82,21 @@ def SliceMove(a,b,l,init,init_pos,step,Slice,write):
             dis_v = dis_v - Slice
         if dis_v > 0: #假設Slice無法完整走完剩下的距離就直接走完
             DoRun(b,init,l,init_pos,step,write)
-<<<<<<< HEAD
-=======
+# <<<<<<< HEAD
+# =======
 
->>>>>>> 9c32e4f28a62c30120dc0ffbab5e0e862b8d5f24
+# >>>>>>> 9c32e4f28a62c30120dc0ffbab5e0e862b8d5f24
 tmp = np.array([0.,0.])
 def connect():
     global tmp
     Slice = 100. #每筆畫精細度設定為10mm
     board_len = float(elen.get())
     init = np.array(map(float,eint.get().split()))
-<<<<<<< HEAD
-    # tmp = np.array([0.,0.])
-=======
+# <<<<<<< HEAD
+#     # tmp = np.array([0.,0.])
+# =======
     
->>>>>>> 9c32e4f28a62c30120dc0ffbab5e0e862b8d5f24
+# >>>>>>> 9c32e4f28a62c30120dc0ffbab5e0e862b8d5f24
     init_pos = PosCaculator(init,tmp,board_len)
     # print init_pos
     # t.insert('insert',init_pos)
