@@ -20,12 +20,13 @@ step.flushInput()
 
 # board_len = float(raw_input('Length of Board: '))
 # init = np.array(map(float,raw_input('Input Init Pos: ').split()))
-board_len = 1380.
-init = np.array([150.,130.])
-Slice = 10.
+board_len = 975.
+init = np.array([75.,440.])
+Slice = 1.
 tmp = np.array([0.,0.])
 init_pos = Pecker.PosCaculator(init,tmp,board_len)
-       
+
+step.write('G1 F500\n')
 while True:
     pos = np.array(map(float,raw_input('Input Position:').split()))
     if len(pos)<1: break #不輸入值直接Enter即可結束程式
