@@ -20,8 +20,8 @@ step.flushInput()
 
 # board_len = float(raw_input('Length of Board: '))
 # init = np.array(map(float,raw_input('Input Init Pos: ').split()))
-board_len = 975.
-init = np.array([75.,440.])
+board_len = 1284.
+init = np.array([100.,590.])
 Slice = 1.
 tmp = np.array([0.,0.])
 init_pos = Pecker.PosCaculator(init,tmp,board_len)
