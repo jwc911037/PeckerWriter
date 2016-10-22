@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 fname = raw_input('Enter:')
-fhand = open('gcode/'+fname,'wb')
+fhand = open('gcode/Unajusted/'+fname,'wb')
   
 im = cv2.imread('img/winnie.png')
 imgray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)

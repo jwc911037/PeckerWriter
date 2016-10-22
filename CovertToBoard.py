@@ -16,9 +16,9 @@ m = np.array([50.,50.])
 scale = 1.0
 # =========================
 fname = raw_input('Enter:')
-fhand = open('gcode/'+fname)
+fhand = open('gcode/Unajusted/'+fname)
 oname = raw_input('Output:')
-gcode = open(oname, 'wb')
+gcode = open('gcode/'+oname, 'wb')
 for line in fhand:
     l = line.strip()
     pos = re.findall('X(\S+).Y(\S+)', l)
