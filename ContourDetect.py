@@ -2,11 +2,11 @@
 #-*- coding:utf8 -*-
 import numpy as np
 import cv2
-
-fname = raw_input('Enter:')
+img = raw_input('Enter Img:')
+fname = raw_input('File Save:')
 fhand = open('gcode/Unajusted/'+fname,'wb')
   
-im = cv2.imread('img/winnie.png')
+im = cv2.imread('img/'+img)
 imgray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 ret,thresh = cv2.threshold(imgray,125,255,0)
 contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
