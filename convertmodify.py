@@ -12,11 +12,11 @@ tmp = np.array([0.,0.])
 init_pos = Pecker.PosCaculator(init,tmp,board_len)
 # =================
 # =====位移以及大小設定=====
-m = np.array([0.,0.])
-scale = 1.
+m = np.array([50.,50.])
+scale = 1.0
 # =========================
 fname = raw_input('Enter:')
-fhand = open(fname)
+fhand = open('gcode/'+fname)
 oname = raw_input('Output:')
 gcode = open(oname, 'wb')
 for line in fhand:

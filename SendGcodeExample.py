@@ -13,6 +13,7 @@ step_port = raw_input('step_port:')
 serv_port = raw_input('serv_port:')
 step = serial.Serial(step_port,115200)
 serv = serial.Serial(serv_port,9600)
+tstart = time.asctime( time.localtime(time.time()) )
 print 'Initialize grbl...'
 step.write("\r\n\r\n")
 time.sleep(2)
@@ -33,8 +34,9 @@ for line in gcode:
         step.write(l+'\n')
         grbl_out = step.readline()
         print l + ':' + grbl_out.strip()
-        
+tend = time.asctime( time.localtime(time.time()) )
 raw_input('Press <Enter> to terminate the prog.')
+print tstart,tend
 gcode.close()
 step.close()
 serv.close() 

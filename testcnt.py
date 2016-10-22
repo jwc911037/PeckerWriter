@@ -6,16 +6,16 @@ import cv2
 fname = raw_input('Enter:')
 fhand = open('gcode/'+fname,'wb')
   
-im = cv2.imread('img/test.jpg')
+im = cv2.imread('img/winnie.png')
 imgray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 ret,thresh = cv2.threshold(imgray,125,255,0)
 contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-# print len(contours)
+print len(contours)
 fhand.write('G1\n')
 fhand.write('Z up\n')
 for i in range(len(contours)):
     cnt = contours[i]
-    # cv2.drawContours(im, [cnt], 0, (0,255,0), 3)
+    cv2.drawContours(im, [cnt], 0, (0,255,0), 0)
     fhand.write('X'+str(cnt[0][0][0])+' Y'+str(cnt[0][0][1])+'\n')
     fhand.write('Z down\n')
     for c in range(len(cnt)):
@@ -29,6 +29,6 @@ fhand.write('X0 Y0\n')
 raw_input('Press <Enter> to terminate the prog..')
 fhand.close()
 
-# cv2.imshow('im', im)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+cv2.imshow('im', im)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
