@@ -5,7 +5,7 @@ from math import sqrt,hypot,sin,cos,pi
 import numpy as np
 import re
 # =====初始設定=====
-Slice = 1 #每筆畫精細度設定為10mm
+Slice = 10 #每筆畫精細度設定為10mm
 board_len = 1284.
 init = np.array([100.,590.])
 tmp = np.array([0.,0.])
@@ -24,7 +24,7 @@ for line in fhand:
     pos = re.findall('X(\S+).Y(\S+)', l)
     if l.startswith('G1'):
         # print 'G1 F500'
-        gcode.write('G1 F500\n')
+        gcode.write('G1 F1000\n')
     elif l.startswith('Z'):
         # print l
         if l == 'Z up':
