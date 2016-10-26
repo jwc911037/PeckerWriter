@@ -5,15 +5,15 @@ from math import sqrt,hypot,sin,cos,pi
 import numpy as np
 import re
 # =====初始設定=====
-Slice = 10 #每筆畫精細度設定為10mm
+Slice = 1 #每筆畫精細度設定為10mm
 board_len = 1284.
 init = np.array([100.,590.])
 tmp = np.array([0.,0.])
 init_pos = Pecker.PosCaculator(init,tmp,board_len)
 # =================
 # =====位移以及大小設定=====
-m = np.array([50.,50.])
-scale = 1.0
+m = np.array([100.,100.])
+scale = 0.5
 # =========================
 fname = raw_input('Enter:')
 fhand = open('gcode/Unajusted/'+fname)
