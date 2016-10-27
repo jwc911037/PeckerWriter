@@ -12,8 +12,8 @@ tmp = np.array([0.,0.])
 init_pos = Pecker.PosCaculator(init,tmp,board_len)
 # =================
 # =====位移以及大小設定=====
-m = np.array([100.,100.])
-scale = 0.5
+m = np.array([50.,50.])
+scale = 1.
 # =========================
 fname = raw_input('Enter:')
 fhand = open('gcode/Unajusted/'+fname)
