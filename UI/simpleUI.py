@@ -164,8 +164,8 @@ class GUI(Frame):
 
 root = Tk()
 root.title('Pecker')
-# root.resizable(0,0)
-root.geometry('800x500+200+100')
+root.resizable(0,0)
+root.geometry('800x510+200+100')
 root.configure(background='#344253')
 #icon
 root.iconbitmap(default='UI_img/icon.ico')
