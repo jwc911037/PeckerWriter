@@ -119,8 +119,19 @@ class GUI(Frame):
         #send
         self.img8=ImageTk.PhotoImage(Image.open("UI_img/send.png"))
         self.send=Button(window, image=self.img8, bg='#344253',command=self.open)
-        self.send.grid(column=16,row=16,columnspan=3)
+        self.send.grid(column=16,row=15,columnspan=3)
         self.button6_ttp = CreateToolTip(self.send, "傳送")
+        #訊息框
+        self.frame2=Frame(window,width=17,height=3)
+        self.frame2.grid(column=16,row=16,columnspan=3,rowspan=3,pady=10)
+        self.t=Text(self.frame2,height=3,width=17, bg='#477979',fg='white',font=('Calibri',14,'bold'),padx=10,pady=5)
+        self.t.grid(column=16,row=16,columnspan=3,rowspan=3,pady=10)
+        self.vbar=ttk.Scrollbar(self.frame2,orient=VERTICAL)
+        self.vbar.pack(side=RIGHT,fill=Y)
+        self.vbar.config(command=self.t.yview)
+        self.t.config(yscrollcommand=self.vbar.set)
+        self.t.pack(side=LEFT,expand=True,fill=BOTH)
+        self.t_ttp = CreateToolTip(self.t, "port連接訊息框")
 
     def open_img(self):
         global img2,resized
@@ -158,7 +169,8 @@ class GUI(Frame):
         step.write("\r\n\r\n")
         time.sleep(2)
         step.flushInput()  
-        output = 'Initialize grbl...'     
+        output = 'Initialize grbl...'
+        self.t.insert('insert',output)     
         SendGcode.sndgcode(step,'contour_gcode.txt')
 
 
