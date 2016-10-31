@@ -10,17 +10,9 @@ import serial
 import serial.tools.list_ports
 import time
 import Pecker
-<<<<<<< HEAD
 import ContourDetect
-=======
-import cv2
-import ContourDetect
-import CovertToBoard
-import SendGcode
->>>>>>> origin/master
 import numpy as np
 from math import *
-
 
 #說明書----------------------------------------------------------------------------------------------------#
 class CreateToolTip(object):
@@ -71,10 +63,15 @@ class GUI(Frame):
         self.logo=Label(window, image=self.img, bg='#344253')
         self.logo.grid(column=0,row=0,columnspan=5,padx=20,pady=10)  
         #frame包canvas
-        self.frame=Frame(window,width=500,height=350)
+        self.frame=Frame(window,width=700,height=470)
         self.frame.grid(column=1,row=3,columnspan=15,rowspan=20,padx=30,pady=10)
-        self.canvas=Canvas(self.frame,width=500,height=350,bg='white')
+        self.canvas=Canvas(self.frame,width=700,height=470,bg='white',cursor='heart')
         self.canvas.pack(side=LEFT,expand=True,fill=BOTH)
+        self.linex=self.canvas.create_line(0,20,700,20, dash=(4, 2),fill='#7B7B7B')
+        self.liney=self.canvas.create_line(20,0,20,470, dash=(4, 2),fill='#7B7B7B')
+        self.circle=self.canvas.create_oval(10,10,30,30,outline='black',fill='#A9D18F',width=2)
+        self.liney2=self.canvas.create_line(680,0,680,470, dash=(4, 2),fill='#7B7B7B')
+        self.circle2=self.canvas.create_oval(670,10,690,30,outline='black',fill='#A9D18F',width=2)
         #picture
         self.img3=ImageTk.PhotoImage(Image.open("UI_img/picture.png"))
         self.picture=Button(window, image=self.img3, bg='#344253',command=self.open_img)
@@ -85,73 +82,76 @@ class GUI(Frame):
         self.trash=Button(window, image=self.img4, bg='#344253',command=self.delete_img)
         self.trash.grid(column=13,row=1,columnspan=2,rowspan=2)
         self.button3_ttp = CreateToolTip(self.trash, "刪除圖片")
-        #設定
-        self.img11=ImageTk.PhotoImage(Image.open("UI_img/setup2.png"))
-        self.setup2=Label(window, image=self.img11, bg='#344253')
-        self.setup2.grid(column=15, row=4,columnspan=4,rowspan=2)
         #下拉步進馬達com
         self.lab1=Label(window,text='步進馬達com :',fg='#FFFFFF',bg='#344253',font=('Calibri,微軟正黑',12,'bold'))
-        self.lab1.grid(column=16, row=6,rowspan=2,pady=10)
+        self.lab1.grid(column=16, row=2,rowspan=2)
         self.lab1_ttp = CreateToolTip(self.lab1, "請選擇步進馬達連接埠")
 
         self.box_value1 = StringVar()
         self.box1 = ttk.Combobox(window, textvariable=self.box_value1,state='readonly',width=10)
         self.box1['values'] = (self.COM) 
         self.box1.bind('<<ComboboxSelected>>',self.Choice)
-        self.box1.grid(column=17, row=6,columnspan=2,rowspan=2,padx=10,pady=10)
+        self.box1.grid(column=17, row=3,columnspan=2)
         #下拉伺服馬達com
         self.lab2=Label(window,text='伺服馬達com :',fg='#FFFFFF',bg='#344253',font=('Calibri,微軟正黑',12,'bold'))
-        self.lab2.grid(column=16,row=8,rowspan=2,pady=10)
+        self.lab2.grid(column=16,row=3,rowspan=2,padx=10,pady=50)
         self.lab2_ttp = CreateToolTip(self.lab2, "請選擇伺服馬達連接埠")
         
         self.box_value2 = StringVar()
         self.box2 = ttk.Combobox(window, textvariable=self.box_value2,state='readonly',width=10)
         self.box2['values'] = (self.COM) 
         self.box2.bind('<<ComboboxSelected>>',self.Choice)
-        self.box2.grid(column=17, row=8,columnspan=2,rowspan=2,padx=10,pady=10)
-        #版寬
-        self.lab3=Label(window,text='板寬(mm) :',fg='#FFFFFF',bg='#344253',font=('Calibri,微軟正黑',12,'bold'))
-        self.lab3.grid(column=16, row=10,rowspan=2,pady=10)
-        self.lab3_ttp = CreateToolTip(self.lab3, "請輸入板子寬度")
-        self.ew=Entry(window,width=10)
-        self.ew.grid(column=17, row=10,columnspan=2,rowspan=2,padx=10,pady=10)
-        #起始位置
-        self.lab5=Label(window,text='起始位置 :',fg='#FFFFFF',bg='#344253',font=('Calibri,微軟正黑',12,'bold'))
-        self.lab5.grid(column=16, row=12,rowspan=2,pady=10)
-        self.lab5_ttp = CreateToolTip(self.lab5, "請輸入起始位置(ex:10 10)")
-        self.es=Entry(window,width=10)
-        self.es.grid(column=17, row=12,columnspan=2,rowspan=2,padx=10,pady=10)
-        #send
-        self.img8=ImageTk.PhotoImage(Image.open("UI_img/send.png"))
-        self.send=Button(window, image=self.img8, bg='#344253',command=self.open)
-        self.send.grid(column=16,row=15,columnspan=3)
-        self.button6_ttp = CreateToolTip(self.send, "傳送")
-        #訊息框
-        self.frame2=Frame(window,width=17,height=3)
-        self.frame2.grid(column=16,row=16,columnspan=3,rowspan=3,pady=10)
-        self.t=Text(self.frame2,height=3,width=17, bg='#477979',fg='white',font=('Calibri',14,'bold'),padx=10,pady=5)
-        self.t.grid(column=16,row=16,columnspan=3,rowspan=3,pady=10)
+        self.box2.grid(column=17, row=3,columnspan=2,rowspan=2,padx=10)
+        #connect
+        self.img7=ImageTk.PhotoImage(Image.open("UI_img/connect.png"))
+        self.connect=Button(window, image=self.img7, bg='#344253',command=self.open)
+        self.connect.grid(column=19,row=2,rowspan=2,padx=10,pady=20)
+        self.button5_ttp = CreateToolTip(self.connect, "連接")
+        #grbl
+        self.frame2=Frame(window,width=30,height=14)
+        self.frame2.grid(column=16,row=4,columnspan=15,rowspan=5,pady=20)
+        self.t=Text(self.frame2,height=14,width=30, bg='#477979',fg='white',font=('Calibri',14,'bold'),padx=10,pady=5)
+        self.t.grid(column=16,row=4,columnspan=15,rowspan=5,pady=20)
         self.vbar=ttk.Scrollbar(self.frame2,orient=VERTICAL)
         self.vbar.pack(side=RIGHT,fill=Y)
         self.vbar.config(command=self.t.yview)
         self.t.config(yscrollcommand=self.vbar.set)
         self.t.pack(side=LEFT,expand=True,fill=BOTH)
-        self.t_ttp = CreateToolTip(self.t, "port連接訊息框")
+        self.t_ttp = CreateToolTip(self.t, "圖檔之gcode碼顯示處")
+
+        #send
+        self.img8=ImageTk.PhotoImage(Image.open("UI_img/send.png"))
+        self.send=Button(window, image=self.img8, bg='#344253')
+        self.send.grid(column=15,row=10,columnspan=3)
+        self.button6_ttp = CreateToolTip(self.send, "傳送")
+
+        # self.ser = Serial()  
+        # self.ser.setPort(self.port) 
+    
 
     def open_img(self):
         global img2,resized
         global photo
         fileName = tkFileDialog.askopenfilename(filetypes = (("JPEG", "*.jpg;*.jpeg"),("PNG", "*.png")))
         original=Image.open(fileName)
-        r=float(350)/float(500)
+        r=float(660)/float(700)
         width=int(original.size[0]*r)
         height=int(original.size[1]*r)
         resized = original.resize((width,height),Image.BILINEAR)
         img2 = ImageTk.PhotoImage(resized)
-        photo=self.canvas.create_image(250,175,anchor='center',image=img2)
-        ContourDetect.cntdetect(fileName,'contour.txt')
-        CovertToBoard.cnvt2brd('contour.txt','contour_gcode.txt')
-
+        photo=self.canvas.create_image(350,235,anchor='center',image=img2)
+        # self.canvas.bind("<B1-Motion>", move_image)
+        self.canvas.focus_set()
+    # def move_image(self,event):
+    #     global photo
+    #     # 刪除前一步驟圖片位置
+    #     self.canvas.delete(photo)
+    #     # 新圖片位置
+    #     x = event.x
+    #     y = event.y
+    #     # 新增圖片新的位置
+    #     photo = self.canvas.create_image(x, y, image=img2,anchor='center')
+    #     self.canvas.update()
     def delete_img(self):
         global photo
         self.canvas.delete(photo)
@@ -167,33 +167,23 @@ class GUI(Frame):
             return self.port2
 
     def open(self):
-        global sndgcode
         step = serial.Serial(self.port1,115200)
         # serv = serial.Serial(self.port2,9600)
         
-        step.write("\r\n\r\n")
-        time.sleep(2)
-<<<<<<< HEAD
-        step.flushInput()
-        # output = step.readline()
-
-        print 'hihihi',output 
+        context1 = "print 'hi'"
+        n = step.write(context1)  
+        output = step.read(n)  
+        print output    
         self.t.insert(0.0,output) 
 
     def close(self):
         self.ser.close()
-=======
-        step.flushInput()  
-        output = 'Initialize grbl...'
-        self.t.insert('insert',output)     
-        SendGcode.sndgcode(step,'contour_gcode.txt')
->>>>>>> origin/master
 
 
 root = Tk()
-root.title('Pecker')
+root.title('home')
 root.resizable(0,0)
-root.geometry('800x510+200+100')
+root.geometry('1150x630+40+20')
 root.configure(background='#344253')
 #icon
 root.iconbitmap(default='UI_img/icon.ico')
