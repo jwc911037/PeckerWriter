@@ -10,9 +10,10 @@ import serial
 import serial.tools.list_ports
 import time
 import Pecker
-# import ContourDetect
+import ContourDetect
 import numpy as np
 from math import *
+
 
 #說明書----------------------------------------------------------------------------------------------------#
 class CreateToolTip(object):
@@ -170,10 +171,12 @@ class GUI(Frame):
         step = serial.Serial(self.port1,115200)
         # serv = serial.Serial(self.port2,9600)
         
-        context1 = "print 'hi'"
-        n = step.write(context1)  
-        output = step.read(n)  
-        print output    
+        step.write("\r\n\r\n")
+        time.sleep(2)
+        step.flushInput()
+        # output = step.readline()
+
+        print 'hihihi',output 
         self.t.insert(0.0,output) 
 
     def close(self):
